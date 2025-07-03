@@ -45,12 +45,12 @@ if processar and arquivo is not None:
         
         txt = df_selecionado.to_csv(index=False, sep='|', header=False).encode('utf-8')
 
-st.success("✅ Arquivo processado com sucesso!")
-st.download_button(
-    label="⬇️ Baixar TXT formatado",
-    data=txt,
-    file_name="resultado.txt",
-    mime="text/plain"
+        st.success("✅ Arquivo processado com sucesso!")
+        st.download_button(
+        label="⬇️ Baixar TXT formatado",
+        data=txt,
+        file_name="resultado.txt",
+        mime="text/plain"
 )
 
     except Exception as e:
