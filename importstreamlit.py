@@ -43,14 +43,15 @@ if processar and arquivo is not None:
         
         df_selecionado.replace({'nan': '', 'NaN': '', 'None': ''}, inplace=True)
         
-        csv = df_selecionado.to_csv(index=False, sep='|', header=False).encode('utf-8')
-        
-        st.success("✅ Arquivo processado com sucesso!")
-        st.download_button(
-            label="⬇️ Baixar CSV formatado",
-            data=csv,
-            file_name="resultado.csv",
-            mime="text/csv"
-        )
+        txt = df_selecionado.to_csv(index=False, sep='|', header=False).encode('utf-8')
+
+st.success("✅ Arquivo processado com sucesso!")
+st.download_button(
+    label="⬇️ Baixar TXT formatado",
+    data=txt,
+    file_name="resultado.txt",
+    mime="text/plain"
+)
+
     except Exception as e:
         st.error(f"❌ Erro ao processar o arquivo: {e}")
