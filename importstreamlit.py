@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import io
 
-st.set_page_config(page_title="Conversor de Pagamentos", layout="centered")
+st.set_page_config(page_title="Conversor de arquivo para baixa contas a pagar PROTHEUS", layout="centered")
 
 st.title("📄 Conversor de Excel para Formato de Pagamento")
 st.markdown("Envie um arquivo Excel com os dados de pagamento para gerar o arquivo .CSV formatado.")
@@ -14,7 +14,7 @@ arquivo = st.file_uploader("Selecione o arquivo Excel (.xlsx)", type=["xlsx"])
 with st.form("parametros"):
     st.subheader("🔧 Parâmetros fixos")
     dt_baixa = st.text_input("Data de Baixa", "02/07/2025")
-    motivo = st.text_input("Motivo", "Pagamento efetuado")
+    motivo = st.text_input("Motivo de baixa", "DEB")
     banco = st.text_input("Banco", "033")
     agencia = st.text_input("Agência", "3409")
     conta = st.text_input("Conta", "130067894")
