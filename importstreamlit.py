@@ -5,7 +5,7 @@ import io
 st.set_page_config(page_title="Conversor de arquivo para baixa contas a pagar PROTHEUS", layout="centered")
 
 st.title("📄 Conversor de Excel para baixas via planilha Contas a pagar protheus")
-st.markdown("Envie um arquivo Excel "Funçoes contas a pagar" para gerar o arquivo .CSV formatado.")
+st.markdown("Envie um arquivo Excel Funçoes contas a pagar para gerar o arquivo .CSV formatado.")
 
 # Upload do arquivo
 arquivo = st.file_uploader("Selecione o arquivo Excel (.xlsx)", type=["xlsx"])
