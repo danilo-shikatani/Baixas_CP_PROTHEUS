@@ -24,7 +24,8 @@ with st.form("parametros"):
 # Processamento
 if processar and arquivo is not None:
     try:
-        df = pd.read_excel(arquivo, skiprows=1, engine='openpyxl')
+        df = pd.read_excel(arquivo, skiprows=1, engine='openpyxl',
+        dtype={'No. Titulo': str, 'Parcela': str, 'Filial': str})
         df = df.astype(str).replace({'nan': '', 'NaN': '', 'None': ''})
         df.columns = df.columns.str.strip()
         
