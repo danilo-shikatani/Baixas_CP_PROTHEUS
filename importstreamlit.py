@@ -24,6 +24,9 @@ with st.form("parametros"):
 # Processamento
 if processar and arquivo is not None:
     try:
+
+        
+
         df = pd.read_excel(arquivo, skiprows=1, engine='openpyxl',
         dtype={'No. Titulo': str, 'Parcela': str, 'Filial': str})
         df = df.astype(str).replace({'nan': '', 'NaN': '', 'None': ''})
@@ -31,8 +34,9 @@ if processar and arquivo is not None:
         
         df_selecionado = df[['Filial', 'Prefixo', 'No. Titulo', 'Parcela', 'Tipo', 'Fornecedor', 'Loja']].copy()
         df_selecionado.columns = ['E1_FILIAL','E1_PREFIXO','E1_NUM','E1_PARCELA','E1_TIPO','E1_CLIENTE','E1_LOJA']
-        
+
         df_selecionado['E1_FILIAL'] = df_selecionado['E1_FILIAL'].str[:4]
+        df_selecionado['E1_NUM'] = df_selecionado['E1_NUM'].str.replace('.0', '', regex=False).str.zfill(8)  
         df_selecionado['E1_PARCELA'] = df_selecionado['E1_PARCELA'].str.replace('.0', '', regex=False).str.zfill(2)
         
         df_selecionado['DT_BAIXA'] = dt_baixa
@@ -44,7 +48,7 @@ if processar and arquivo is not None:
         
         df_selecionado.replace({'nan': '', 'NaN': '', 'None': ''}, inplace=True)
         
-        txt = df_selecionado.to_csv(index=False, sep='|', header=False).encode('utf-8')
+        txt = df_selecionado.to_csv(index=False, sep='|', header=False).encode('latin1')
 
         st.success("✅ Arquivo processado com sucesso!")
         st.download_button(
