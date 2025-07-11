@@ -36,7 +36,8 @@ if processar and arquivo is not None:
         df_selecionado.columns = ['E1_FILIAL','E1_PREFIXO','E1_NUM','E1_PARCELA','E1_TIPO','E1_CLIENTE','E1_LOJA']
 
         df_selecionado['E1_FILIAL'] = df_selecionado['E1_FILIAL'].str[:4]
-        df_selecionado['E1_NUM'] = df_selecionado['E1_NUM'].str.replace('.0', '', regex=False).str.zfill(9)  
+        df_selecionado['E1_NUM'] = df_selecionado['E1_NUM'].str.replace('.0', '', regex=False).str.zfill(9)
+        df_selecionado['E1_PREFIXO'] = df_selecionado['E1_PREFIXO'].str.replace('.0', '', regex=False).str.zfill(3) 
         df_selecionado['E1_PARCELA'] = df_selecionado['E1_PARCELA'].str.replace('.0', '', regex=False).str.zfill(2)
         
         df_selecionado['DT_BAIXA'] = dt_baixa
