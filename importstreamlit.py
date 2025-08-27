@@ -182,8 +182,12 @@ if processar and arquivo is not None:
         df_sel["E1_CLIENTE"]  = df_sel["E1_CLIENTE"].str.strip()
         df_sel["E1_LOJA"]     = df_sel["E1_LOJA"].str.replace(".0", "", regex=False).str.strip().str.zfill(2)
 
+
+        # Converter dt_baixa para formato AAAAMMDD
+        dt_formatada = pd.to_datetime(dt_baixa, format="%d/%m/%Y").strftime("%Y%m%d")
+
         # Parâmetros fixos
-        df_sel["DT_BAIXA"]  = dt_baixa
+        df_sel["DT_BAIXA"]  = dt_formatada
         df_sel["MOTIVO"]    = motivo
         df_sel["BANCO"]     = banco
         df_sel["AGENCIA"]   = agencia
@@ -206,4 +210,5 @@ if processar and arquivo is not None:
 
     except Exception as e:
         st.error(f"❌ Erro ao processar o arquivo: {e}")
+
 
