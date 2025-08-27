@@ -180,7 +180,7 @@ if processar and arquivo is not None:
         df_sel["E1_PARCELA"]  = df_sel["E1_PARCELA"].str.replace(".0", "", regex=False).str.strip().str.zfill(2)
         df_sel["E1_TIPO"]     = df_sel["E1_TIPO"].str.strip()
         df_sel["E1_CLIENTE"]  = df_sel["E1_CLIENTE"].str.strip()
-        df_sel["E1_LOJA"]     = df_sel["E1_LOJA"].str.strip()
+        df_sel["E1_LOJA"]     = df_sel["E1_LOJA"].str.replace(".0", "", regex=False).str.strip().str.zfill(2)
 
         # Parâmetros fixos
         df_sel["DT_BAIXA"]  = dt_baixa
@@ -206,3 +206,4 @@ if processar and arquivo is not None:
 
     except Exception as e:
         st.error(f"❌ Erro ao processar o arquivo: {e}")
+
