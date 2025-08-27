@@ -10,11 +10,44 @@ st.markdown("Envie um arquivo Excel Funçoes contas a pagar para gerar o arquivo
 # Upload do arquivo
 arquivo = st.file_uploader("Selecione o arquivo Excel (.xlsx)", type=["xlsx"])
 
+# Dicionário de motivos: chave = sigla, valor = descrição
+motivos_dict = {
+    "NOR": "NORMAL",
+    "DAC": "DACAO",
+    "DEB": "DEBITO CC",
+    "LIQ": "LIQUIDACAO",
+    "CEC": "COMP CARTE",
+    "FAT": "FATURAS",
+    "RES": "RESIDUO",
+    "CAN": "CANCELAMEN",
+    "STP": "SUBSTPR",
+    "CMP": "COMPENSACA",
+    "CNF": "CANCELA NF",
+    "LOJ": "OUTRA LOJA",
+    "BFT": "BAIXA FAT.",
+    "TRO": "TROCO",
+    "MPR": "MAIS PRAZO",
+    "OFF": "+NEGOCIOS",
+    "DIS": "DISTRATO",
+    "CDD": "CESS.DIREI",
+    "PIX": "PIX_MANUAL",
+    "SER": "SERASA",
+    "PER": "PERDA"
+}
+
 # Parâmetros fixos
 with st.form("parametros"):
     st.subheader("🔧 Parâmetros fixos")
     dt_baixa = st.text_input("Data de Baixa", "02/07/2025")
-    motivo = st.text_input("Motivo de baixa", "DEB")
+
+    # Caixa de seleção para o motivo de baixa
+    motivo_descricao = st.selectbox(
+        "Motivo de baixa",
+        options=[f"{k} - {v}" for k, v in motivos_dict.items()],
+        index=list(motivos_dict.keys()).index("DEB")  # valor default = DEB
+    )
+    motivo = motivo_descricao.split(" - ")[0]  # guarda só a sigla
+
     banco = st.text_input("Banco", "033")
     agencia = st.text_input("Agência", "3409")
     conta = st.text_input("Conta", "130067894")
@@ -24,11 +57,12 @@ with st.form("parametros"):
 # Processamento
 if processar and arquivo is not None:
     try:
-
-        
-
-        df = pd.read_excel(arquivo, skiprows=1, engine='openpyxl',
-        dtype={'No. Titulo': str, 'Parcela': str, 'Filial': str})
+        df = pd.read_excel(
+            arquivo,
+            skiprows=1,
+            engine='openpyxl',
+            dtype={'No. Titulo': str, 'Parcela': str, 'Filial': str}
+        )
         df = df.astype(str).replace({'nan': '', 'NaN': '', 'None': ''})
         df.columns = df.columns.str.strip()
         
@@ -40,10 +74,7 @@ if processar and arquivo is not None:
         df_selecionado['E1_PREFIXO'] = df_selecionado['E1_PREFIXO'].str.replace('.0', '', regex=False).str.zfill(3)
         df_selecionado['E1_PARCELA'] = df_selecionado['E1_PARCELA'].str.replace('.0', '', regex=False).str.zfill(2)
 
-
-
-        
-        
+        # Adiciona os parâmetros
         df_selecionado['DT_BAIXA'] = dt_baixa
         df_selecionado['MOTIVO'] = motivo
         df_selecionado['BANCO'] = banco
@@ -57,11 +88,11 @@ if processar and arquivo is not None:
 
         st.success("✅ Arquivo processado com sucesso!")
         st.download_button(
-        label="⬇️ Baixar TXT formatado",
-        data=txt,
-        file_name="resultado.txt",
-        mime="text/plain"
-)
+            label="⬇️ Baixar TXT formatado",
+            data=txt,
+            file_name="resultado.txt",
+            mime="text/plain"
+        )
 
     except Exception as e:
         st.error(f"❌ Erro ao processar o arquivo: {e}")
